@@ -2,6 +2,7 @@
 RAT malware using Python
 
 ## What can a RAT do?/ functions ideas
+
 1) Monitoring user behavior through keyloggers or other spyware.
 2) Accessing confidential information, such as credit card and social security numbers.
 3) Activating a system's webcam and recording video.
