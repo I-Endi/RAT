@@ -1,5 +1,5 @@
 # RAT
-Undetectable RAT malware
+RAT malware using Python
 
 ## Main goals
 
