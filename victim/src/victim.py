@@ -2,7 +2,7 @@ import os
 import socket
 import sys
 
-def main():
+def make_conn():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     ipaddr = "172.20.10.2"
     port = 4444
@@ -11,9 +11,6 @@ def main():
     server_address = (ipaddr, port)
     sock.connect(server_address)
     sock.sendfile(file)
+    
 
 
-
-
-if __name__ == "__main__":
-    main()
