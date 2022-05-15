@@ -13,6 +13,9 @@ RAT malware using Python
 - Bypass AVs
 - ...
 
+## Victim
+Win XP
+
 <hr>
 
 DEADLINE: 15th June
