@@ -13,18 +13,26 @@ RAT malware using Python
 
 ## Main goals
 
-- Working (basic) remote access trojan (assuming RAT is already on the system)
-- Get reverse connection to host
-- Dump victim's files to a server (+ keylogger?)
++ Working (basic) remote access trojan (assuming RAT is already on the system)
++ Get reverse connection to host
+- Make it compile and autorun
+- Get elevated privileges and hide it
 
 ### Extra
 
 - Make RAT undetectable (using encription, writing to memory on startup...) 
 - Bypass AVs
-- ...
+- Mute system notifications
+- Dump victim's files to a server (+ keylogger?)
+- Detect System and support multiple systems
+- Make it non-python reliant(.exe or .bat file)
+- Make Useful Scripts/Commands
 
-## Victim
-Win XP
+## Supported Victims
+- Windows OS
+
+# Useful Commands
+- netsh advfirewall set currentprofile state off
 
 <hr>
 

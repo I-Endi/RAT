@@ -14,7 +14,7 @@ def connect(ip: str, port: int):
     while True:
         try:            
             # Connect to host (add timeout?)
-            sock.connect((str, port))
+            sock.connect((ip, port))
             
             break
         except:
