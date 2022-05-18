@@ -1,4 +1,9 @@
-import connection
+import connection as conn
 
 def main():
-    connection.run()
+    conn.connect(conn.IP, conn.PORT)
+    
+
+
+if __name__ == "__main__":
+    main()

