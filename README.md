@@ -32,7 +32,7 @@ RAT malware using Python
 - Windows OS
 
 # Useful Commands
-- netsh advfirewall set currentprofile state off
+- netsh advfirewall set currentprofile state off (disable firewall, makes a notification appear)
 
 <hr>
 

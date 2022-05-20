@@ -27,7 +27,7 @@ class Client:
         '''
         
         # Create client instance
-        self.client = Connection(self.host, self.port, self.afamily, self.skind)
+        self.client = Connection(self.host, self.port)
         # Open socket connection back to server
         self.sock = self.client.connect()
         
