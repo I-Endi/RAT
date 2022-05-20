@@ -31,7 +31,7 @@ class Connection:
         # Creates tuple with address and port
         server_address = (self.host, self.port)
         
-        while True: # Try until it connects
+        while 1: # Try until it connects
             try:            
                 # Connect to host
                 self.sock.connect(server_address)
