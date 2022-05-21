@@ -1,4 +1,3 @@
-from types import NoneType
 from client.connection import Connection
 from client.rev_shell import Shell
 import time
