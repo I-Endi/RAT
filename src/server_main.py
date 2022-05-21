@@ -30,5 +30,5 @@ class Server:
         
         
 if __name__ == "__main__":
-    # Run RAT with specified IP and port
+    # Run listener with specified port
     Server(4444).run()
