@@ -1,7 +1,5 @@
-import os
 import socket
 import time
-import sys
 
 class Connection:
     '''
@@ -18,15 +16,15 @@ class Connection:
         
         self.host = host
         self.port = port
+        
+        # Selects family IPv4 to connect to with TCP
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
     def connect(self) -> socket:
         '''
         Creates socket connection between client and server
         '''
-        
-        # Selects family IPv4 to connect to with TCP 
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
         # Creates tuple with address and port
         server_address = (self.host, self.port)

