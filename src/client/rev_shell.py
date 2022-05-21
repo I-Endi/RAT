@@ -32,13 +32,13 @@ class Shell:
                 data = data.strip('\n')
 
                 # Special cases
-                if data == "quit":  # Exits shell
+                if data == "quit" or data == "exit":  # Exits shell
                     break
 
                 if data[:2] == "cd":  # Changes directory
                     os.chdir(data[3:])
 
-                if data == "ls":  # Lists cwd
+                if data == "ls":  # Lists cwd with ls
                     data = "dir"
 
                 if len(data) > 0:
