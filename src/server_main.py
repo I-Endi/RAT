@@ -26,6 +26,7 @@ class Server:
         
         self.Listener.listen()
         
+        # Close connection when finished
         self.Listener.sock.close()
         
         

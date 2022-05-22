@@ -21,7 +21,16 @@ with open('client_all.py','wb') as wfd:
             shutil.copyfileobj(fd, wfd)
 ```
 
-## 2: Create .exe with pyinstaller
+## 2: Remove imports
+
+Remove imports like:
+
+```python
+from client.connection import Connection
+from client.rev_shell import Shell
+```
+
+## 3: Create .exe with pyinstaller
 
 ```bash
 pyinstaller --noconfirm --onefile --windowed  "client_all.py"
