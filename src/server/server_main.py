@@ -1,4 +1,4 @@
-from server.listen import Listener
+from listen import Listener
 
 
 class Server:

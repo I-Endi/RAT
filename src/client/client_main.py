@@ -1,5 +1,5 @@
-from client.connection import Connection
-from client.rev_shell import Shell
+from connection import Connection
+from rev_shell import Shell
 import time
 import socket
 
