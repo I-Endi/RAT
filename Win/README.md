@@ -26,8 +26,8 @@ with open('client_all.py','wb') as wfd:
 Remove imports like:
 
 ```python
-from client.connection import Connection
-from client.rev_shell import Shell
+from connection import Connection
+from rev_shell import Shell
 ```
 
 ## 3: Create .exe with pyinstaller
