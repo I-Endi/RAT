@@ -11,6 +11,7 @@ class Client:
     """
     Performs all necessary actions for the RAT to function:
         - Creates socket
+        - Logs key events to a file
         - Gets a reverse shell back to the server
     """
 
