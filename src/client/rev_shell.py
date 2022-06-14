@@ -88,7 +88,7 @@ class Shell:
                     self.sock.send(str.encode("\n" + output_str))
 
             except socket.error:
-                continue
+                break
 
     
 

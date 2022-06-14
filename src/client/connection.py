@@ -27,9 +27,7 @@ class Connection:
         """
 
         # Creates tuple with address and port
-        server_address = (self.host, self.port)
-
-
+        server_address = (self.host, self.port)  
 
         while 1:  # Try until it connects
             try:
