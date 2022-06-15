@@ -19,6 +19,34 @@ class ChromePass:
         """
         self.chromepass_filename = chromepass_filename
 
+    def get_key() -> str:
+        """
+        Gets the key to decrypt the chrome data
+        """
+
+        local_state_file = r"%s\AppData\Local\Google\Chrome\User Data\Local State"%(os.environ['USERPROFILE'])
+        local_state = json.loads(open(local_state_file).read())
+        key = base64.b64decode(local_state["os_crypt"]["encrypted_key"])
+        key = key[5:] 
+        key = win32crypt.CryptUnprotectData(key, None, None, None, 0)[1]
+        return key
+
+    def decrypt(raw_encrypted, key: str) -> str:
+        """
+        Decrypts the data from chrome
+
+        :param key: ???
+        """
+
+        #(3-a) Initialisation vector for AES decryption
+        AES_vector = raw_encrypted[3:15]
+        #(3-b) Get encrypted password by removing suffix bytes (last 16 bits)
+        #Encrypted password is 192 bits
+        encrypted = raw_encrypted[15:-16]
+        cipher =  AES.new(key, AES.MODE_GCM, AES_vector)
+        decrypted = cipher.decrypt(encrypted)
+        decrypted = decrypted.decode()  
+        return decrypted
 
     def get_chrome_pass(self) -> None:
         """
@@ -44,33 +72,3 @@ class ChromePass:
         f = open(self.chromepass_filename, "w")
         f.write(login_data)
         f.close
-
-
-    def decrypt(raw_encrypted, key: str) -> str:
-        """
-        Decrypts the data from chrome
-
-        :param key: ???
-        """
-
-        #(3-a) Initialisation vector for AES decryption
-        AES_vector = raw_encrypted[3:15]
-        #(3-b) Get encrypted password by removing suffix bytes (last 16 bits)
-        #Encrypted password is 192 bits
-        encrypted = raw_encrypted[15:-16]
-        cipher =  AES.new(key, AES.MODE_GCM, AES_vector)
-        decrypted = cipher.decrypt(encrypted)
-        decrypted = decrypted.decode()  
-        return decrypted
-
-    def get_key() -> str:
-        """
-        Gets the key to decrypt the chrome data
-        """
-
-        local_state_file = r"%s\AppData\Local\Google\Chrome\User Data\Local State"%(os.environ['USERPROFILE'])
-        local_state = json.loads(open(local_state_file).read())
-        key = base64.b64decode(local_state["os_crypt"]["encrypted_key"])
-        key = key[5:] 
-        key = win32crypt.CryptUnprotectData(key, None, None, None, 0)[1]
-        return key
