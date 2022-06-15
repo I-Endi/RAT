@@ -63,6 +63,9 @@ class Shell:
                 
                 if data == "add startup":
                     startup.add_startup()
+                
+                if data == "rm startup":
+                    startup.remove_startup()
 
                 if len(data) > 0:
                     # Executes arbitrary command

