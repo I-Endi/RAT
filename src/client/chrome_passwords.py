@@ -68,6 +68,5 @@ class ChromePass:
         os.remove("logindata.db")
 
         # Write passwords to a file
-        f = open(self.chromepass_filename, "w")
-        f.write(login_data)
-        f.close
+        with open(self.chromepass_filename, "w") as f:
+            f.write(login_data)
