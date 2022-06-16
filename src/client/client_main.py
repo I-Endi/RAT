@@ -56,7 +56,6 @@ class Client:
         3. Gets a reverse shell from client to server
         """
         
-        
         choice = self.open_menu()
         
         if choice == 1:
@@ -126,7 +125,9 @@ class Client:
             pass
         
         # Check valid response
-        if not response in [1,2,3,4]:
+        if not response in [1,2,3,4,5,6]:
+            self.send_data("\nNot a valid response!\n")
+            sleep(2)
             self.open_menu()
         
         return response
