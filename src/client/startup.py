@@ -11,7 +11,7 @@ class Startup:
 
     def __init__(self) -> None:
         """
-        Constructor
+        Constructor to create Startup project from which we can call the methods
         """
         pass
 
@@ -32,7 +32,7 @@ class Startup:
     
     def remove_startup(self):
         """
-        Removes .exe file to startup
+        Removes .exe file from startup by deleting windows registry key
         """
         key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
                              0, winreg.KEY_ALL_ACCESS)
