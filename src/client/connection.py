@@ -33,8 +33,6 @@ class Connection:
             try:
                 # Connect to host
                 self.sock.connect(server_address)
-                print(server_address)
-
                 break
             except socket.error:
                 # Wait 5 seconds and retry
