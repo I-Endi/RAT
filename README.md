@@ -1,39 +1,24 @@
-# RAT
-RAT malware using Python
-
-## What can a RAT do?/ functions ideas
-
-1) Monitoring user behavior through keyloggers or other spyware.
-2) Accessing confidential information, such as credit card and social security numbers.
-3) Activating a system's webcam and recording video.
-4) Taking screenshots.
-5) Distributing viruses and other malware.
-6) Formatting drives.
-7) Deleting, downloading or altering files and file systems.
-
-## Main goals
-
-+ Working (basic) remote access trojan (assuming RAT is already on the system)
-+ Get reverse connection to host
-- Make it compile and autorun
-- Get elevated privileges and hide it
-
-### Extra
-
-- Make RAT undetectable (using encription, writing to memory on startup...) 
-- Bypass AVs
-- Mute system notifications
-- Dump victim's files to a server (+ keylogger?)
-- Detect System and support multiple systems
-- Make it non-python reliant(.exe or .bat file)
-- Make Useful Scripts/Commands
-
-## Supported Victims
-- Windows OS
-
-# Useful Commands
-- netsh advfirewall set currentprofile state off (disable firewall, makes a notification appear)
+# RAT malware demostration
+Made by computer science students of the Technical University of Eindhoven.
 
 <hr>
 
-DEADLINE: 15th June
+DISCLAIMER: **This repo is created to demonstrate how a remote backdoor works. Hacking without permission is illegal. This is strictly educational for learning about malware cyber-security in the areas of ethical hacking so that we can protect ourselves against the real black-hat hackers.**
+
+<hr>
+
+# Usage
+
+## Set-up
+Set up a safe virtual network with both a **Windows 10** machine and any other OS able to listen for connections on a specified port (to test this, **Parrot OS** was used).
+
+## Usage
+**First of all**: change the IP value to the correct IP address of the listener machine at the bottom of ```client/src/client_main/py```
+
+### To test without building a .exe
+**Client:** Run ```client/src/client_main/py```
+**Server:** Listen on specified port for connections (default set to 9001) using any command like: ```nc -lvnp 9001```
+
+### To test with an executable
+**Client:** Build the executable file using ```output/pyinstaller.txt``` or ```output/pymake.py```
+**Server:** Same as above, listen to specified port
