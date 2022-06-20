@@ -16,9 +16,13 @@ Set up a safe virtual network with both a **Windows 10** machine and any other O
 **First of all**: change the IP value to the correct IP address of the listener machine at the bottom of ```client/src/client_main/py```
 
 ### To test without building a .exe
+
 **Client:** Run ```client/src/client_main/py```
+
 **Server:** Listen on specified port for connections (default set to 9001) using any command like: ```nc -lvnp 9001```
 
 ### To test with an executable
-**Client:** Build the executable file using ```output/pyinstaller.txt``` or ```output/pymake.py```
+
+**Client:** Build the executable file using ```output/pyinstaller.txt``` or ```output/executables/pymake.py```
+
 **Server:** Same as above, listen to specified port
